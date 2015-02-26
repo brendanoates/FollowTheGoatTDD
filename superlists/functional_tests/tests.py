@@ -53,15 +53,16 @@ class NewVisitorTest(LiveServerTestCase):
 
         #Now a new user, Francis, comes along to the site.
 
-        ## we use a new browser session to make sure that no infromation of Edith's is coming through from cookies etc.
+        ## we use a new browser session to make sure th
+        # at no infromation of Edith's is coming through from cookies etc.
         self.browser.quit()
         self.browser = webdriver.Firefox()
 
         # Francis visits the home page. there is no sign of Edith's list
         self.browser.get(self.live_server_url)
         page_text = self.browser.find_element_by_tag_name('body').text
-        self.assertIn('Buy peacock feathers', page_text)
-        self.assertIn('Make a fly', page_text)
+        self.assertNotIn('Buy peacock feathers', page_text)
+        self.assertNotIn('Make a fly', page_text)
 
         # Francis starts a new list by entering a new item, He is less interesting than Edith...
         inputbox = self.browser.find_element_by_id('id_new_item')
