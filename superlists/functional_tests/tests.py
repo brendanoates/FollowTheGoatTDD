@@ -1,15 +1,16 @@
 __author__ = 'boates'
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import unittest
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(3)
 
     def tearDown(self):
+        self.browser.refresh()
         self.browser.quit()
 
     def check_for_row_in_list_table(self, row_text):
@@ -55,6 +56,7 @@ class NewVisitorTest(LiveServerTestCase):
 
         ## we use a new browser session to make sure th
         # at no infromation of Edith's is coming through from cookies etc.
+        self.browser.refresh()
         self.browser.quit()
         self.browser = webdriver.Firefox()
 
